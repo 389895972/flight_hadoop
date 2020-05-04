@@ -31,6 +31,7 @@ public class ExcellentDriver {
 //                }
 //            }
 //        }, 0, 24 * 60 * 60 * 1000);
+
         ExcellentDriver excellentDriver = new ExcellentDriver();
         excellentDriver.startBid();
         excellentDriver.startTendering();
@@ -110,7 +111,7 @@ public class ExcellentDriver {
         conf.set("mapred.textoutputformat.separator", ",");
 
         FileSystem fs = FileSystem.get(conf);
-        fs.copyFromLocalFile(new Path(Init.bidFileName), new Path(Init.tenderingFileName));
+        fs.copyFromLocalFile(new Path(Init.tenderingFileName), new Path(Init.tenderingFileName));
         // 1 获取Job对象
         Job job = Job.getInstance(conf);
 
