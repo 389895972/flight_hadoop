@@ -35,7 +35,7 @@ public class ExcellentDriver {
 
         ExcellentDriver excellentDriver = new ExcellentDriver();
         excellentDriver.startHotCity();
-//        excellentDriver.startNullRate();
+        excellentDriver.startNullRate();
     }
 
     public void startHotCity() throws Exception {
