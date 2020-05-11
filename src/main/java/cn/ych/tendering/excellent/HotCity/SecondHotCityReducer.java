@@ -21,7 +21,7 @@ public class SecondHotCityReducer extends Reducer<DoubleWritable, Text, IntWrita
         if (i == 0) {
             for (Text value : values) {
                 String string = value.toString();
-                String[] split = string.split(":");
+                String[] split = string.split(",");
                 tbHotCityDao.insert(split[0], split[1]);
             }
             i++;

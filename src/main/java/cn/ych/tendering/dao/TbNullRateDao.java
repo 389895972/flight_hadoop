@@ -17,7 +17,7 @@ public class TbNullRateDao {
         try {
             pre = con.prepareStatement("insert into tb_null_rate (flight_no,null_rate,date) values (?,?,?)");
             pre.setInt(1, flight_no);
-            pre.setDouble(2, null_rate);
+            pre.setDouble(2, null_rate * 100);
             pre.setString(3, simpleDateFormat.format(new Date()));
             return pre.executeUpdate();
         } catch (SQLException e) {

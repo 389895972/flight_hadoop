@@ -11,6 +11,7 @@ import cn.ych.tendering.utils.DoubleWritableComparator;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -33,11 +34,11 @@ public class ExcellentDriver {
 //        }, 0, 24 * 60 * 60 * 1000);
 
         ExcellentDriver excellentDriver = new ExcellentDriver();
-        excellentDriver.startBid();
-        excellentDriver.startNullRate();
+        excellentDriver.startHotCity();
+//        excellentDriver.startNullRate();
     }
 
-    public void startBid() throws Exception {
+    public void startHotCity() throws Exception {
         new Init().initHotCity();
 
         Configuration conf = new Configuration();
@@ -57,17 +58,17 @@ public class ExcellentDriver {
         job.setReducerClass(FirstHotCityReducer.class);
 
         // 4 设置Mapper阶段输出数据的key和value类型
-        job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(IntWritable.class);
+        job.setMapOutputKeyClass(IntWritable.class);
+        job.setMapOutputValueClass(Text.class);
 
         // 5 设置最终数据输出的key和value类型
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputKeyClass(IntWritable.class);
+        job.setOutputValueClass(Text.class);
 
         // 6 设置输入路径和输出路径
         FileInputFormat.setInputPaths(job, new Path(Init.hotCityFileName));
 
-        String output = "tempOutput-bid-" + System.currentTimeMillis();
+        String output = "tempOutput-hot-city" + System.currentTimeMillis();
         FileOutputFormat.setOutputPath(job, new Path(output));
 
         // 7 提交job
@@ -86,7 +87,7 @@ public class ExcellentDriver {
         job1.setReducerClass(SecondHotCityReducer.class);
 
         // 4 设置Mapper阶段输出数据的key和value类型
-        job1.setMapOutputKeyClass(IntWritable.class);
+        job1.setMapOutputKeyClass(DoubleWritable.class);
         job1.setMapOutputValueClass(Text.class);
 
         // 5 设置最终数据输出的key和value类型
@@ -96,7 +97,7 @@ public class ExcellentDriver {
         // 6 设置输入路径和输出路径
         FileInputFormat.setInputPaths(job1, new Path(output + "/part-r-00000"));
 
-        FileOutputFormat.setOutputPath(job1, new Path("output-bid-" + System.currentTimeMillis()));
+        FileOutputFormat.setOutputPath(job1, new Path("output-hot-city" + System.currentTimeMillis()));
 
         // 7 提交job
         job1.waitForCompletion(true);
@@ -133,7 +134,7 @@ public class ExcellentDriver {
         // 6 设置输入路径和输出路径
         FileInputFormat.setInputPaths(job, new Path(Init.nullRateFileName));
 
-        String output = "output-tendering-" + System.currentTimeMillis();
+        String output = "output-null-rate-" + System.currentTimeMillis();
         FileOutputFormat.setOutputPath(job, new Path(output));
 
         // 7 提交job

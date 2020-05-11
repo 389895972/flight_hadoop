@@ -21,8 +21,8 @@ public class SecondHotCityMapper extends Mapper<LongWritable, Text, DoubleWritab
             return;
         }
         String[] s = input.split(",");
-        v.set(s[0] + "," + s[1]);
-        k.set(Double.parseDouble(s[2]));
+        v.set(s[1] + "," + s[2]);
+        k.set(Double.parseDouble(s[3]));
         context.write(k, v);
     }
 }

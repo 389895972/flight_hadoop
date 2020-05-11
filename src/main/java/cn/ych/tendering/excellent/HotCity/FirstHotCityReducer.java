@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 public class FirstHotCityReducer extends Reducer<IntWritable, Text, IntWritable, Text> {
 
     Text v = new Text();
-    TbNullRateDao tbNullRateDao = new TbNullRateDao();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
@@ -30,8 +29,7 @@ public class FirstHotCityReducer extends Reducer<IntWritable, Text, IntWritable,
         String[] split = text.toString().split(":");
         int sum = Integer.parseInt(split[3]) + Integer.parseInt(split[4]);
         null_rate = (sum - empty) / (sum + 0.0);
-        v.set(split[1] + "," + split[2] + "," + null_rate);
-        tbNullRateDao.insert(key.get(), null_rate);
+        v.set(split[0] + "," + split[1] + "," + null_rate);
         context.write(key, v);
     }
 }

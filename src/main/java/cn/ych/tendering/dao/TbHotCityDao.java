@@ -16,7 +16,7 @@ public class TbHotCityDao {
         Connection con = DBUtils.connect();
         PreparedStatement pre = null;
         try {
-            pre = con.prepareStatement("insert into tb_hot_city (start)city,end_city,date) values (?,?,?)");
+            pre = con.prepareStatement("insert into tb_hot_city (start_city,end_city,date) values (?,?,?)");
             pre.setString(1, start_city);
             pre.setString(2, end_city);
             pre.setString(3, simpleDateFormat.format(new Date()));
