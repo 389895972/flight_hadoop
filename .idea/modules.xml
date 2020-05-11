@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/tendering-hadooop.iml" filepath="$PROJECT_DIR$/tendering-hadooop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aiyou-hadoop.iml" filepath="$PROJECT_DIR$/aiyou-hadoop.iml" />
     </modules>
   </component>
 </project>

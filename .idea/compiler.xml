@@ -7,11 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="tendering-hadooop" />
+        <module name="aiyou-hadoop" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="tendering-hadooop" target="1.8" />
+      <module name="aiyou-hadoop" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
