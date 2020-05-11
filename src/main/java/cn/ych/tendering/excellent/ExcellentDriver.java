@@ -1,12 +1,13 @@
 package cn.ych.tendering.excellent;
 
-import cn.ych.tendering.excellent.bid.FirstExcellentBidMapper;
-import cn.ych.tendering.excellent.bid.FirstExcellentBidReducer;
-import cn.ych.tendering.excellent.bid.SecondExcellentBidMapper;
-import cn.ych.tendering.excellent.bid.SecondExcellentBidReducer;
-import cn.ych.tendering.excellent.tendering.ExcellentTenderingMapper;
-import cn.ych.tendering.excellent.tendering.ExcellentTenderingReducer;
-import cn.ych.tendering.utils.IntWritableComparator;
+
+import cn.ych.tendering.excellent.HotCity.FirstHotCityMapper;
+import cn.ych.tendering.excellent.HotCity.FirstHotCityReducer;
+import cn.ych.tendering.excellent.HotCity.SecondHotCityMapper;
+import cn.ych.tendering.excellent.HotCity.SecondHotCityReducer;
+import cn.ych.tendering.excellent.NullRate.NullRateMapper;
+import cn.ych.tendering.excellent.NullRate.NullRateReducer;
+import cn.ych.tendering.utils.DoubleWritableComparator;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -15,7 +16,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-
 
 public class ExcellentDriver {
 
@@ -34,18 +34,18 @@ public class ExcellentDriver {
 
         ExcellentDriver excellentDriver = new ExcellentDriver();
         excellentDriver.startBid();
-        excellentDriver.startTendering();
+        excellentDriver.startNullRate();
     }
 
     public void startBid() throws Exception {
-        new Init().initBid();
+        new Init().initHotCity();
 
         Configuration conf = new Configuration();
         conf.set("mapred.textoutputformat.ignoreseparator", "true");
         conf.set("mapred.textoutputformat.separator", ",");
 
         FileSystem fs = FileSystem.get(conf);
-        fs.copyFromLocalFile(new Path(Init.bidFileName), new Path(Init.bidFileName));
+        fs.copyFromLocalFile(new Path(Init.hotCityFileName), new Path(Init.hotCityFileName));
         // 1 获取Job对象
         Job job = Job.getInstance(conf);
 
@@ -53,8 +53,8 @@ public class ExcellentDriver {
         job.setJarByClass(ExcellentDriver.class);
 
         // 3 关联Map和Reduce类
-        job.setMapperClass(FirstExcellentBidMapper.class);
-        job.setReducerClass(FirstExcellentBidReducer.class);
+        job.setMapperClass(FirstHotCityMapper.class);
+        job.setReducerClass(FirstHotCityReducer.class);
 
         // 4 设置Mapper阶段输出数据的key和value类型
         job.setMapOutputKeyClass(Text.class);
@@ -65,7 +65,7 @@ public class ExcellentDriver {
         job.setOutputValueClass(IntWritable.class);
 
         // 6 设置输入路径和输出路径
-        FileInputFormat.setInputPaths(job, new Path(Init.bidFileName));
+        FileInputFormat.setInputPaths(job, new Path(Init.hotCityFileName));
 
         String output = "tempOutput-bid-" + System.currentTimeMillis();
         FileOutputFormat.setOutputPath(job, new Path(output));
@@ -77,13 +77,13 @@ public class ExcellentDriver {
         // 1 获取Job对象
         Job job1 = Job.getInstance(conf);
 
-        job1.setSortComparatorClass(IntWritableComparator.class);
+        job1.setSortComparatorClass(DoubleWritableComparator.class);
         // 2 设置jar存储位置
         job1.setJarByClass(ExcellentDriver.class);
 
         // 3 关联Map和Reduce类
-        job1.setMapperClass(SecondExcellentBidMapper.class);
-        job1.setReducerClass(SecondExcellentBidReducer.class);
+        job1.setMapperClass(SecondHotCityMapper.class);
+        job1.setReducerClass(SecondHotCityReducer.class);
 
         // 4 设置Mapper阶段输出数据的key和value类型
         job1.setMapOutputKeyClass(IntWritable.class);
@@ -103,15 +103,15 @@ public class ExcellentDriver {
 
     }
 
-    public void startTendering() throws Exception {
-        new Init().initTendering();
+    public void startNullRate() throws Exception {
+        new Init().initNullRate();
 
         Configuration conf = new Configuration();
         conf.set("mapred.textoutputformat.ignoreseparator", "true");
         conf.set("mapred.textoutputformat.separator", ",");
 
         FileSystem fs = FileSystem.get(conf);
-        fs.copyFromLocalFile(new Path(Init.tenderingFileName), new Path(Init.tenderingFileName));
+        fs.copyFromLocalFile(new Path(Init.nullRateFileName), new Path(Init.nullRateFileName));
         // 1 获取Job对象
         Job job = Job.getInstance(conf);
 
@@ -119,8 +119,8 @@ public class ExcellentDriver {
         job.setJarByClass(ExcellentDriver.class);
 
         // 3 关联Map和Reduce类
-        job.setMapperClass(ExcellentTenderingMapper.class);
-        job.setReducerClass(ExcellentTenderingReducer.class);
+        job.setMapperClass(NullRateMapper.class);
+        job.setReducerClass(NullRateReducer.class);
 
         // 4 设置Mapper阶段输出数据的key和value类型
         job.setMapOutputKeyClass(IntWritable.class);
@@ -131,7 +131,7 @@ public class ExcellentDriver {
         job.setOutputValueClass(Text.class);
 
         // 6 设置输入路径和输出路径
-        FileInputFormat.setInputPaths(job, new Path(Init.tenderingFileName));
+        FileInputFormat.setInputPaths(job, new Path(Init.nullRateFileName));
 
         String output = "output-tendering-" + System.currentTimeMillis();
         FileOutputFormat.setOutputPath(job, new Path(output));

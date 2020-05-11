@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class DBUtils {
     private static Connection con = null;
-    private static final String url = "jdbc:mysql://134.175.99.101:3306/tendering?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8";
+    private static final String url = "jdbc:mysql://47.96.165.193:3306/aiyou?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8";
     private static final String user = "root";
     private static final String password = "YCH670989882@qq.com";
 

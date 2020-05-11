@@ -1,5 +1,6 @@
 package cn.ych.tendering.utils;
 
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
@@ -9,13 +10,13 @@ import org.apache.hadoop.io.WritableComparator;
  * @author   administrator
  * @Date	 2019年10月7日
  */
-public class IntWritableComparator extends WritableComparator {
+public class DoubleWritableComparator extends WritableComparator {
 
     /*
      * 重写构造方法，定义比较类 IntWritable
      */
-    public IntWritableComparator() {
-        super(IntWritable.class, true);
+    public DoubleWritableComparator() {
+        super(DoubleWritable.class, true);
     }
     /*
      * 重写compare方法，自定义比较规则
@@ -23,8 +24,8 @@ public class IntWritableComparator extends WritableComparator {
     @Override
     public int compare(WritableComparable a, WritableComparable b) {
         //向下转型
-        IntWritable ia = (IntWritable) a;
-        IntWritable ib = (IntWritable) b;
+        DoubleWritable ia = (DoubleWritable) a;
+        DoubleWritable ib = (DoubleWritable) b;
         return ib.compareTo(ia);
     }
 }

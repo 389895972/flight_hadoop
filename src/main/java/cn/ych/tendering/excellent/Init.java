@@ -1,11 +1,7 @@
 package cn.ych.tendering.excellent;
 
-import cn.ych.tendering.dao.BidDao;
-import cn.ych.tendering.dao.ReportDao;
-import cn.ych.tendering.dao.TenderingDao;
-import cn.ych.tendering.pojo.Bid;
-import cn.ych.tendering.pojo.Report;
-import cn.ych.tendering.pojo.Tendering;
+import cn.ych.tendering.dao.TbFlightInfoDao;
+import cn.ych.tendering.pojo.TbFlightInfo;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,46 +10,38 @@ import java.util.List;
 
 public class Init {
     private File file;
-    public static String bidFileName = "input-bid-";
-    public static String tenderingFileName = "input-tendering-";
+    public static String hotCityFileName = "input-hot-city-";
+    public static String nullRateFileName = "input-null-rate-";
 
-    public void initBid() throws IOException {
-        bidFileName += System.currentTimeMillis();
-        file = new File(bidFileName);
+    public void initHotCity() throws IOException {
+        hotCityFileName += System.currentTimeMillis();
+        file = new File(hotCityFileName);
 
         file.createNewFile();
 
         FileWriter fileWriter = new FileWriter(file);
-        List<Bid> bidList = new BidDao().selectAll();
-        for (Bid bid : bidList) {
-            fileWriter.append("bid ").append(String.valueOf(bid.getE_id())).append(":").append(bid.getE_name()).append("\n");
-        }
-
-        List<Report> reportList = new ReportDao().selectAll();
-        for (Report report : reportList) {
-            fileWriter.append("report ").append(String.valueOf(report.getE_id())).append(":").append(report.getE_name()).append("\n");
-        }
-
-        List<Tendering> tenderingList = new TenderingDao().selectAll();
-        for (Tendering tendering : tenderingList) {
-            fileWriter.append("tendering ").append(String.valueOf(tendering.getWin_id())).append(":").append(tendering.getName()).append("\n");
+        List<TbFlightInfo> tbFlightInfoList = new TbFlightInfoDao().selectHotCity();
+        for (TbFlightInfo tbFlightInfo : tbFlightInfoList) {
+            fileWriter.append(String.valueOf(tbFlightInfo.getFlight_no())).append("\t").append(tbFlightInfo.getFrom_city()).append(":").append(tbFlightInfo.getTo_city()).append(":")
+            .append(tbFlightInfo.getFlight_date()).append(":").append(String.valueOf(tbFlightInfo.getEconomy_num())).append(":")
+            .append(String.valueOf(tbFlightInfo.getHead_num())).append("\n");
         }
         fileWriter.flush();
         fileWriter.close();
     }
 
-    public void initTendering() throws IOException {
-        tenderingFileName += System.currentTimeMillis();
-        file = new File(tenderingFileName);
+    public void initNullRate() throws IOException {
+        nullRateFileName += System.currentTimeMillis();
+        file = new File(nullRateFileName);
 
         file.createNewFile();
 
         FileWriter fileWriter = new FileWriter(file);
-        List<Tendering> tenderingList = new TenderingDao().selectAllTendering();
-        for (Tendering tendering : tenderingList) {
-            //e_id,e_name,end_time,win_id
-            fileWriter.append(String.valueOf(tendering.getE_id())).append('\t').append(tendering.getName())
-                    .append(',').append(tendering.getEnd_time()).append(',').append(String.valueOf(tendering.getWin_id())).append('\n');
+        List<TbFlightInfo> tbFlightInfoList = new TbFlightInfoDao().selectNullRate();
+        for (TbFlightInfo tbFlightInfo : tbFlightInfoList) {
+            fileWriter.append(String.valueOf(tbFlightInfo.getFlight_no())).append("\t").append(tbFlightInfo.getFrom_city()).append(":").append(tbFlightInfo.getTo_city()).append(":")
+                    .append(tbFlightInfo.getFlight_date()).append(":").append(String.valueOf(tbFlightInfo.getEconomy_num())).append(":")
+                    .append(String.valueOf(tbFlightInfo.getHead_num())).append("\n");
         }
         fileWriter.flush();
         fileWriter.close();
