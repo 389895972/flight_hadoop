@@ -78,7 +78,7 @@ public class ExcellentDriver {
         // 1 获取Job对象
         Job job1 = Job.getInstance(conf);
 
-        job1.setSortComparatorClass(DoubleWritableComparator.class);
+//        job1.setSortComparatorClass(DoubleWritableComparator.class);
         // 2 设置jar存储位置
         job1.setJarByClass(ExcellentDriver.class);
 
